@@ -1,0 +1,63 @@
+
+1 ?- couple(X,Y).
+X = don,
+Y = audrey ;
+X = wes,
+Y = barb ;
+X = greg,
+Y = paula ;
+X = audrey,
+Y = don ;
+X = barb,
+Y = wes ;
+X = paula,
+Y = greg.
+
+2 ?- sister(X,Y).
+X = barb,
+Y = ted ;
+X = barb,
+Y = paula ;
+X = paula,
+Y = ted ;
+X = paula,
+Y = barb ;
+X = jessica,
+Y = david ;
+X = erin,
+Y = austin ;
+false.
+
+3 ?- nephew(X,Y).
+X = austin,
+Y = ted ;
+X = austin,
+Y = barb ;
+X = austin,
+Y = paula ;
+X = david,
+Y = ted ;
+X = david,
+Y = barb ;
+X = david,
+Y = paula ;
+false.
+
+4 ?- aunt(X,Y).
+X = barb,
+Y = jessica ;
+X = paula,
+Y = jessica ;
+X = barb,
+Y = david ;
+X = paula,
+Y = david ;
+X = barb,
+Y = erin ;
+X = barb,
+Y = austin ;
+X = paula,
+Y = alyssa ;
+false.
+
+5 ?- 
