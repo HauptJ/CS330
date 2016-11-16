@@ -1,0 +1,60 @@
+% family DB, with basic rules for parent, grandather, etc
+% could be extended to include sister, cousin, uncle, etc
+
+grandfather(don,who).
+father(don,ted).
+father(don,barb).
+father(don,paula).
+father(greg,erin).
+father(greg,austin).
+father(wes,alyssa).
+father(ted,jessica).
+father(ted,david).
+%mother(ted, john).
+
+mother(audrey,ted).
+mother(audrey,barb).
+mother(audrey,paula).
+mother(paula,erin).
+mother(paula,austin).
+mother(barb,alyssa).
+
+married(don,audrey).
+married(wes,barb).
+married(greg,paula).
+
+male(don).
+male(ted).
+male(wes).
+male(greg).
+male(austin).
+male(david).
+
+female(audrey).
+female(barb).
+female(paula).
+female(alyssa).
+female(jessica).
+female(erin).
+
+parent(X,Y) :-
+	father(X,Y); mother(X,Y).
+
+grandfather(X,Y) :-
+	father(X,Z), parent(Z,Y).
+
+
+samefather(X,Y) :-
+	father(F,X),father(F,Y).
+
+samemother(X,Y) :-
+	mother(M,X),mother(M,Y).
+
+sameparent(X,Y) :- samefather(X,Y).
+sameparent(X,Y) :- samemother(X,Y). %, not(samefather(X,Y)).
+
+brother(X,Y) 	:- not(X=Y), male(X), sameparent(X,Y).
+
+couple(X,Y)   :- married(X,Y), married(Y,X).
+
+sister(X,Y) 	:- not(X=Y), female(X), sameparent(X,Y).
