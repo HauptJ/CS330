@@ -1,7 +1,7 @@
 % family DB, with basic rules for parent, grandather, etc
 % could be extended to include sister, cousin, uncle, etc
 
-grandfather(don,who).
+%grandfather(don,who).
 father(don,ted).
 father(don,barb).
 father(don,paula).
@@ -56,12 +56,15 @@ son(X,Y) :-
 sameparent(X,Y) :- samefather(X,Y).
 sameparent(X,Y) :- samemother(X,Y). %, not(samefather(X,Y)).
 
-brother(X,Y) 	:- not(X=Y), male(X), sameparent(X,Y).
+brother(X,Y) 	:- male(X), sameparent(X,Y), not(X=Y).
 
-couple(X,Y)   :- married(X,Y), married(Y,X).
+couple(X,Y)   :- married(X,Y).
+couple(X,Y)   :- married(Y,X).
 
-sister(X,Y) 	:- not(X=Y), female(X), sameparent(X,Y).
+%sister(X,Y) 	:- female(X), sameparent(X,Y), not(X=Y).
+sister(X,Y) 	:- female(X), father(Z, X), father(Z, Y), not(X=Y).
 
-nephew(X,Y)   :- son(X,Y), brother(Y,X), sister(Y,X).
+nephew(X,Y)   :- son(X,Z), brother(Z,Y).
+nephew(X,Y)   :- son(X,Z), sister(Z,Y).
 
-aunt(X,Y)			:- sister(X,Y), father(Y,X), mother(Y,X).
+aunt(X,Y)			:- female(X), sister(X,Y), father(Y,X), mother(Y,X).
