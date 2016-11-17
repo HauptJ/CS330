@@ -51,7 +51,7 @@ samemother(X,Y) :-
 	mother(M,X),mother(M,Y).
 
 son(X,Y) :-
-	male(X),mother(X,Y),father(X,Y).
+	male(X),parent(Y,X).
 
 sameparent(X,Y) :- samefather(X,Y).
 sameparent(X,Y) :- samemother(X,Y). %, not(samefather(X,Y)).
@@ -63,6 +63,7 @@ couple(X,Y)   :- married(Y,X).
 
 %sister(X,Y) 	:- female(X), sameparent(X,Y), not(X=Y).
 sister(X,Y) 	:- female(X), father(Z, X), father(Z, Y), not(X=Y).
+%sister(X,Y) 	:- female(X), mother(Z, X), mother(Z, Y), not(X=Y).
 
 nephew(X,Y)   :- son(X,Z), brother(Z,Y).
 nephew(X,Y)   :- son(X,Z), sister(Z,Y).
