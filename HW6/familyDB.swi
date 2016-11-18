@@ -59,21 +59,24 @@ child(X,Y)	:- parent(Y,X). % ok
 son(X,Y) :- male(X), child(X,Y).
 
 %a failed attempt at nephew, but I can use this!
-%uncle(X,Y)		:- son(X,Z), brother(Y,Z); son(X,Z), sister(Y,Z), brother(Y,Z).
-uncle(X,Y)		:- brother(X,Z), child(Y,Z).
+%uncle(X,Y)	:- son(X,Z), brother(Y,Z); son(X,Z), sister(Y,Z), brother(Y,Z).
+uncle(X,Y)	:- brother(X,Z), child(Y,Z).
 
 sameparent(X,Y) :- samefather(X,Y).
 sameparent(X,Y) :- samemother(X,Y), not(samefather(X,Y)).
 
-brother(X,Y) 	:- male(X), sameparent(X,Y), not(X=Y).
+brother(X,Y)	:- male(X), sameparent(X,Y), not(X=Y).
 
-couple(X,Y)   :- married(X,Y); married(Y,X).
+couple(X,Y)	:- married(X,Y); married(Y,X).
 
-sister(X,Y) 	:- female(X), sameparent(X,Y), not(X=Y).
+sister(X,Y)	:- female(X), sameparent(X,Y), not(X=Y).
 
-aunt(X,Y)			:- sister(X,Z), child(Y,Z).
+aunt(X,Y)	:- sister(X,Z), child(Y,Z).
 
-nephew(X,Y)		:- male(X), aunt(Y,X); male(X), uncle(Y,X).
-nephew(X,Y)		:- write('Other relational method'),nl,fail.
-nephew(X,Y)		:- male(X), parent(Z,X), sibling(Y,Z).
-%nephew(X,Y)		:- brother(Z,Y), son(X,Z); sister(Z,Y), son(X,Z).
+nephew(X,Y)	:- male(X), aunt(Y,X); male(X), uncle(Y,X).
+nephew(X,Y)	:- write('Other relational method'),nl,fail.
+nephew(X,Y)	:- male(X), parent(Z,X), sibling(Y,Z).
+%nephew(X,Y)	:- brother(Z,Y), son(X,Z); sister(Z,Y), son(X,Z).
+nephew(X,Y)	:- write('Based of of instructions: This method ends up outputing uncle'),nl,fail.
+nephew(X,Y)	:- son(X,Z), brother(Y,Z); son(X,Z), sister(Y,Z).
+nephew(X,Y)	:- son(X,Z), sister(Y,Z). %, not(brother(Y,Z)).
