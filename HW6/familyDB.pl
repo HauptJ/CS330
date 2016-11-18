@@ -50,11 +50,13 @@ samefather(X,Y) :-
 samemother(X,Y) :-
 	mother(M,X),mother(M,Y).
 
-child(X,Y)	:- parent(Y,X).
+child(X,Y)	:-
+ parent(X,Y).
 
-son(X,Y) :- male(X), child(X,Y).
+son(X,Y) :-
+	male(X), parent(X,Y).
 
-%sibling(X,Y) :- not(parent(P,X)), parent(X,Y), not(X=Y).
+sibling(X,Y) :- not(parent(P,X)), parent(X,Y), not(X=Y).
 
 sameparent(X,Y) :- samefather(X,Y).
 sameparent(X,Y) :- samemother(X,Y), not(samefather(X,Y)).
@@ -77,12 +79,8 @@ sister(X,Y) 	:- female(X), sameparent(X,Y), not(X=Y).
 %nephew(X,Y)		 :- male(X), parent(X,Z), sister(Z,Y).
 %nephew(X,Y)		:- male(X), parent(Z,X), brother(Z,Y); male(X), parent(Z,X), sister(Z,Y),  not(brother(Z,Y)).
 %nephew(X,Y)   :- male(X), parent(Z,X), sister(Z,Y), not(brother(Z,Y)).
-%nephew(X,Y)		:- male(X), child(X,Z), brother(Z,Y).
-%nephew(X,Y)		:- male(X), child(X,Z), sister(Z,Y), not(brother(Z,Y)).
-%nephew(X,Y)		:- brother(Y,Z), son(X,Z), not(X=Y).
-%nephew(X,Y)		:- sister(Y,Z), not(brother(Y,Z)), son(X,Z), not(X=Y).
-nephew(X,Y)		:- son(X,Z), brother(Y,Z); son(X,Z), sister(Y,Z).
-%nephew(X,Y)		:- son(X,Z), sister(Y,Z). %, not(brother(Y,Z)).
+nephew(X,Y)		:- parent(X,Z), brother(Y,Z).
+nephew(X,Y)		:- parent(X,Z), sister(Y,Z). %, not(brother(Y,Z)).
 
 
 aunt(X,Y)			:- female(X), sister(X,Z), father(Z,Y).
