@@ -1,0 +1,13 @@
+sum([], 0).
+sum([H|T], Sum) :- sum(T, Rest), Sum is H + Rest.
+
+% use mod to test if odd
+oddsum([H|T]) :- sum([H|T], Sum), not(0 is Sum mod 2).
+
+doubleAll7([], []).
+doubleAll7([H|T], [H,H|T2]) :- H is 7, doubleAll7(T,T2).
+doubleAll7([H|T], [H|T2]) :- doubleAll7(T,T2).
+
+doubleEverything([], []).
+doubleEverything([H|T], [H2|T2]) :- atomic(H), H2 is H*2, doubleEverything(T, T2).
+doubleEverything([H|T], [H2|T2]) :- doubleEverything(H,H2), doubleEverything(T,T2).
