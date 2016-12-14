@@ -1,0 +1,63 @@
+iAppend([], [], []). % ok, but not very helpful
+iAppend([], B,B). % better, allowing copy of entire 2nd list to 3rd list 
+%recursive case, 1st list has at least one element
+
+%iAppend([H1|T1], L2, L3) :- iAppend(T1, L2, T3), L3= [H1|T3].
+iAppend([H1|T1], L2, [H1|T3]) :- iAppend(T1, L2, T3).
+
+%iReverse(L1, L2)
+iReverse([], []).
+iReverse([H1|T1], L2) :- iReverse(T1, T2), iAppend(T2, [H1], L2).
+
+%Base case
+iReverseAll([], []).
+iReverseAll([H1|T1], L2) :- not(is_list(H1)), iReverseAll(T1, T2), iAppend(T2, [H1], L2).
+iReverseAll([H1|T1], L2) :- is_list(H1), iReverseAll(H1, H2), iReverseAll(T1, T2), iAppend(T2, [H2], L2).
+
+% Base case
+% rc(L1, L2) :- L1=[], L2=[]. 
+rc([],[]).
+
+rc([Y], [Y]).  % can I do rc([_], [_]). ?
+
+%rc([H1, H2|T1], L2) :- H1=H2, rc([H2|T1], L2).
+rc([H1,H1|T], L2) :- rc([H1|T], L2).
+
+%rc([H1,H2|T1], L2) :- H1=\=H2, rc([H2|T1], T2), L2= [H1|T2].
+rc([H1,H2|T1], [H1|T2]) :- H1=\=H2, rc([H2|T1], T2).
+
+% interface function for factorial
+findFactorial() :- 
+	write('Please enter an integer: \n'),
+	read(T),
+	factorial(T,N),
+	write('factorial of '),write(T), write(' is '), write(N), nl.
+
+factorial(0,1).
+factorial(T,N) :- T>0, T1 is T-1, factorial(T1, N1), N is T*N1.
+
+min(X, Y, X) :- X<Y. 
+min(X, Y, Y) :- Y=<X.
+max(X, Y, Y) :- X<Y. 
+max(X, Y, X) :- Y=<X.
+
+minmax(H, H, [H]).
+minmax(X, Y, [H|T]) 
+
+:- minmax(X1, Y1, T), min(X1, H, X), max(Y1, H, Y). 
+
+
+%base case when the list is finally empty.
+minmax5(Min, Max, [ ], Cmin, Cmax) :- Min=Cmin, Max=Cmax.
+% Otherwise, L has at least 1 element
+minmax5(Min, Max, [H|T], Cmin, Cmax)
+	:- H<Cmax, H>Cmin, minmax5(Min, Max, T, Cmin, Cmax).
+
+minmax5(Min, Max, [H|T], Cmin, Cmax)
+	:- H<Cmin, minmax5(Min, Max, T, H, Cmax).
+
+minmax5(Min, Max, [H|T], Cmin, Cmax)
+	:- H>Cmax, minmax5(Min, Max, T, Cmin, H).
+
+% The interface rule
+minmax3(Min, Max, [H|T]) :- minmax5(Min, Max, T, H, H).

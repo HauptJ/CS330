@@ -1,0 +1,62 @@
+% Class Example 11/9
+
+% sorting without algorithm
+
+use_module(library(lists)).
+
+sorted([]).
+sorted([_]).
+sorted([H1,H2|T]) :- H1=<H2, sorted([H2|T]).
+
+isort(L1,L2) :- permutation(L1,L2), sorted(L2).
+
+
+% free vatiable not allowed, try positive(Y). and Y is -3, positive(Y).
+
+positive(X) :- X>0.
+
+
+factorial(1, 1).
+factorial(X,Y) :- positive(X), X1 is X-1, factorial(X1, Y1), Y is X*Y1.
+
+findFactorial :- write('Please enter an integer: \n'),
+			read(T),
+			factorial(T,N),
+			write('factorial of '),write(T), write(' is '), write(N), nl.
+
+
+fib(1,1).
+fib(2,1).
+fib(X, Y) :- X>2, X1 is X-1, X2 is X-2, fib(X1, Y1), fib(X2, Y2), Y is Y1+Y2.
+%fibRatio(X, R) :- fib(X, Y), X1 is X-1, fib(X1, Y1), R is Y/Y1.
+
+%member(A,B) :- write('Hello World.\n').
+
+
+iappend([], Y, Y).
+iappend([HX|TX], Y, [HX|TZ]) :- iappend(TX, Y, TZ).
+
+%append(X,Y,Z) :- Z=[X|Y]. % wrong because X is a list
+
+reverse([], []).
+reverse([HX|TX], Y) :- reverse(TX, TY), append(TY, [HX], Y).
+
+reverseAll([], []).
+reverseAll(X, Y) :-  X = [HX|TX], atomic(HX),
+			reverseAll(TX, TY), append(TY, [HX], Y).
+
+
+reverseAll(X, Y) :-  X = [HX|TX], not(atomic(HX)),
+			reverseAll(TX, TY), reverseAll(HX, HY), append(TY, [HY], Y).
+
+%isMember(X, L) :- L = [H|T], X=H.
+%isMember(X, L) :- L = [H|T], X\=H, isMember(X,T).
+
+
+
+
+
+
+
+
+
